@@ -1,0 +1,14 @@
+{
+  "name": "ayon",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:gabrielleeg1/ayon.git",
+  "author": "Gabrielle Guimarães <gabrielle1guim@gmail.com>",
+  "license": "GPL-3.0+",
+  "private": false,
+  "devDependencies": {
+    "@commitlint/cli": "^17.0.3",
+    "@commitlint/config-conventional": "^17.0.3",
+    "husky": "^8.0.1"
+  }
+}
