@@ -1,5 +1,6 @@
 /*
- * This file is part of Ayon distribution * Copyright (C) 2022 Gabrielle Guimarães
+ * This file is part of Ayon distribution
+ * Copyright (C) 2022 Gabrielle Guimarães
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,47 +16,48 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import org.jetbrains.compose.compose
+
 plugins {
-  kotlin("multiplatform") version "1.6.10"
-  id("org.jetbrains.compose") version "1.1.0" apply false
+  kotlin("multiplatform")
+  id("org.jetbrains.compose")
 }
 
 group = "me.devgabi.ayon"
 version = "1.0"
 
 repositories {
+  google()
   mavenCentral()
+  maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
 }
 
 kotlin {
-  jvm {
-    compilations.all {
-      kotlinOptions.jvmTarget = "1.8"
-    }
-    withJava()
-    testRuns["test"].executionTask.configure {
-      useJUnitPlatform()
-    }
-  }
-  js(BOTH) {
+  js(IR) {
     browser {
-      commonWebpackConfig {
-        cssSupport.enabled = true
+      testTask {
+        testLogging.showStandardStreams = true
+        useKarma {
+          useChromeHeadless()
+          useFirefox()
+        }
       }
     }
+    binaries.executable()
   }
+
   sourceSets {
-    val commonMain by getting
-    val commonTest by getting {
+    val jsMain by getting {
       dependencies {
-        implementation(kotlin("test"))
+        implementation(compose.web.core)
+        implementation(compose.runtime)
       }
     }
 
-    val jvmMain by getting
-    val jvmTest by getting
-
-    val jsMain by getting
-    val jsTest by getting
+    val jsTest by getting {
+      dependencies {
+        implementation(kotlin("test-js"))
+      }
+    }
   }
 }
