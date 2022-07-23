@@ -15,47 +15,49 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+
 plugins {
-  kotlin("multiplatform") version "1.6.10"
+  kotlin("multiplatform") version "1.6.10" apply false
   id("org.jetbrains.compose") version "1.1.0" apply false
 }
 
 group = "me.devgabi.ayon"
 version = "1.0"
 
-repositories {
-  mavenCentral()
-}
+subprojects {
+  apply(plugin = "org.jetbrains.kotlin.multiplatform")
 
-kotlin {
-  jvm {
-    compilations.all {
-      kotlinOptions.jvmTarget = "1.8"
-    }
-    withJava()
-    testRuns["test"].executionTask.configure {
-      useJUnitPlatform()
-    }
+  group = rootProject.group
+  version = rootProject.version
+
+  repositories {
+    mavenCentral()
   }
-  js(BOTH) {
-    browser {
-      commonWebpackConfig {
-        cssSupport.enabled = true
+
+  configure<KotlinMultiplatformExtension> {
+    jvm {
+      withJava()
+      compilations.all {
+        kotlinOptions.jvmTarget = "1.8"
+      }
+      testRuns["test"].executionTask.configure {
+        testLogging.showStandardStreams = true
+        testLogging.exceptionFormat = TestExceptionFormat.FULL
+        useJUnitPlatform()
       }
     }
-  }
-  sourceSets {
-    val commonMain by getting
-    val commonTest by getting {
-      dependencies {
-        implementation(kotlin("test"))
+    sourceSets {
+      val commonMain by getting
+      val commonTest by getting {
+        dependencies {
+          implementation(kotlin("test"))
+        }
       }
+
+      val jvmMain by getting
+      val jvmTest by getting
     }
-
-    val jvmMain by getting
-    val jvmTest by getting
-
-    val jsMain by getting
-    val jsTest by getting
   }
 }
