@@ -24,4 +24,6 @@ pluginManagement {
 
 rootProject.name = "ayon"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
 include(":web")
