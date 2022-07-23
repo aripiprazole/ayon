@@ -1,5 +1,6 @@
 /*
- * This file is part of Ayon distribution * Copyright (C) 2022 Gabrielle Guimarães
+ * This file is part of Ayon distribution
+ * Copyright (C) 2022 Gabrielle Guimarães
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,17 +16,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-pluginManagement {
-  repositories {
-    gradlePluginPortal()
-    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-  }
+plugins {
+  application
 }
 
-rootProject.name = "ayon"
+application {
+  mainClass.set("me.devgabi.ayon.backend.MainKt")
+}
 
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-include(":common")
-include(":backend")
-include(":web")
+kotlin {
+  sourceSets {
+    val jvmMain by getting {
+      dependencies {
+        implementation("io.ktor:ktor-server-core-jvm:2.0.3")
+        implementation("io.ktor:ktor-server-netty-jvm:2.0.3")
+        implementation("io.ktor:ktor-server-status-pages-jvm:2.0.3")
+        implementation("io.ktor:ktor-server-default-headers-jvm:2.0.3")
+      }
+    }
+  }
+}
