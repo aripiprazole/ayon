@@ -48,6 +48,17 @@ subprojects {
         useJUnitPlatform()
       }
     }
+
+    js(IR) {
+      browser {
+        testTask {
+          testLogging.showStandardStreams = true
+          testLogging.exceptionFormat = TestExceptionFormat.FULL
+        }
+      }
+      binaries.executable()
+    }
+
     sourceSets {
       val commonMain by getting
       val commonTest by getting {
