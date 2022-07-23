@@ -44,6 +44,7 @@ kotlin {
   sourceSets {
     val jsMain by getting {
       dependencies {
+        implementation(projects.common)
         implementation(compose.web.core)
         implementation(compose.runtime)
       }
