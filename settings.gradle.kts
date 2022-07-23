@@ -15,4 +15,13 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+pluginManagement {
+  repositories {
+    gradlePluginPortal()
+    maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+  }
+}
+
 rootProject.name = "ayon"
+
+include(":web")
